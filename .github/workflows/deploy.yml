@@ -11,13 +11,13 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: SSH into your deployment server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.DEPLOYMENT_HOST }}
-          username: ${{ secrets.DEPLOYMENT_USERNAME }}
-          key: ${{ secrets.DEPLOYMENT_PRIVATE_KEY }}
-          port: ${{ secrets.DEPLOYMENT_PORT }}
+      #      - name: SSH into your deployment server
+      #        uses: appleboy/ssh-action@master
+      #        with:
+      #          host: ${{ secrets.DEPLOYMENT_HOST }}
+      #          username: ${{ secrets.DEPLOYMENT_USERNAME }}
+      #          key: ${{ secrets.DEPLOYMENT_PRIVATE_KEY }}
+      #          port: ${{ secrets.DEPLOYMENT_PORT }}
 
       - name: Pull latest changes from GitHub
         run: git pull

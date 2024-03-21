@@ -18,7 +18,8 @@ jobs:
           username: ${{ secrets.DEPLOYMENT_USERNAME }}
           key: ${{ secrets.DEPLOYMENT_PRIVATE_KEY }}
           port: ${{ secrets.DEPLOYMENT_PORT }}
-
+          passphrase: ${{ secrets.DEPLOYMENT_PASSPHRASE }}
+            
       - name: Pull latest changes from GitHub
         run: git pull
 

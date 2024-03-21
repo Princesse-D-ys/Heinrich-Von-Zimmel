@@ -1,0 +1,29 @@
+---
+name: Deploy on Pull Request
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    - name: SSH into your deployment server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.DEPLOYMENT_HOST }}
+        username: ${{ secrets.DEPLOYMENT_USERNAME }}
+        key: ${{ secrets.DEPLOYMENT_PRIVATE_KEY }}
+        port: ${{ secrets.DEPLOYMENT_PORT }}
+
+    - name: Pull latest changes from GitHub
+      run: git pull
+
+    - name: Deploy Docker Compose
+      run: |
+        MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} \
+        MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} \
+        docker-compose -f /path/to/your/docker-compose.yml up -d
+

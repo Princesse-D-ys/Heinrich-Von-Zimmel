@@ -19,7 +19,9 @@ jobs:
           key: ${{ secrets.DEPLOYMENT_PRIVATE_KEY }}
           port: ${{ secrets.DEPLOYMENT_PORT }}
           passphrase: ${{ secrets.DEPLOYMENT_PASSPHRASE }}
-          script: whoami 
+          script: | 
+             hostname \
+             ls -al .ssh/
             #      - name: Pull latest changes from GitHub
             #        run: git pull
             #

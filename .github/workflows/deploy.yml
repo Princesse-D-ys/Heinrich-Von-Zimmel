@@ -2,13 +2,14 @@
 name: Deploy on Pull Request
 
 on:
-  pull-request:
-    types:
-      - opened
+  pull_request:
+    types: [opened]
 
 jobs:
   deploy:
-    runs-on: self-hosted 
+    runs-on: self-hosted
+
+    if: github.event_name == 'pull_request' && github.event.action == 'opened' && github.event.pull_request.merged == true
 
     steps:
       - name: Deploy Docker Compose

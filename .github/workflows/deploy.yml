@@ -3,16 +3,14 @@ name: Deploy on Pull Request
 
 on:
   pull-request:
-    branches:
-      - main
+    types:
+      - opened
 
 jobs:
   deploy:
     runs-on: self-hosted 
 
     steps:
-      - name: Pull latest changes from GitHub
-        run: pwd 
       - name: Deploy Docker Compose
         run: |
           MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} \

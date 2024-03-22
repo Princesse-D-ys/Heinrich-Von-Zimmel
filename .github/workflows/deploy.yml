@@ -17,5 +17,5 @@ jobs:
         run: |
           MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} \
           MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} \
-          docker-compose -f /path/to/your/docker-compose.yml up -d
+          docker-compose -f /home/morgott/product/Heinrich-Von-Zimmel/docker-compose.yml up -d
 

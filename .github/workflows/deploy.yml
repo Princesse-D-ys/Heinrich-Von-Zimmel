@@ -11,6 +11,7 @@ jobs:
     runs-on: self-hosted 
 
     steps:
+<<<<<<< HEAD
       - name: SSH into your deployment server
         uses: appleboy/ssh-action@master
         with:
@@ -25,6 +26,20 @@ jobs:
             #      - name: Pull latest changes from GitHub
             #        run: git pull
             #
+=======
+      #- name: SSH into your deployment server
+      #  uses: appleboy/ssh-action@master
+      #  with:
+      #    host: ${{ secrets.DEPLOYMENT_HOST }}
+      #    username: ${{ secrets.DEPLOYMENT_USERNAME }}
+      #    key: ${{ secrets.DEPLOYMENT_PRIVATE_KEY }}
+      #    port: ${{ secrets.DEPLOYMENT_PORT }}
+      #    passphrase: ${{ secrets.DEPLOYMENT_PASSPHRASE }}
+      #    script: whoami 
+      - name: Pull latest changes from GitHub
+        run: git pull
+      
+>>>>>>> 567d593 (test: change command)
             #      - name: Deploy Docker Compose
             #        run: |
             #          MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} \

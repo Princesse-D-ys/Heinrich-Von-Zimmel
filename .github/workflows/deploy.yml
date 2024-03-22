@@ -6,11 +6,9 @@ on:
     types: [opened]
 
 jobs:
-  deploy:
+  if_merged:
+    if: github.event.pull_request.merged == true
     runs-on: self-hosted
-
-    if: github.event_name == 'pull_request' && github.event.action == 'opened' && github.event.pull_request.merged == true
-
     steps:
       - name: Deploy Docker Compose
         run: |

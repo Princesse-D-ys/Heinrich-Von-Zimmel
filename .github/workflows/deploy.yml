@@ -2,17 +2,16 @@
 name: Deploy on Pull Request
 
 on:
-  pull-request:
-    branches:
-      - main
+  pull_request:
+    types: [opened]
 
 jobs:
   deploy:
-    runs-on: self-hosted 
+    runs-on: self-hosted
+
+    if: github.event_name == 'pull_request' && github.event.action == 'opened' && github.event.pull_request.merged == true
 
     steps:
-      - name: Pull latest changes from GitHub
-        run: pwd 
       - name: Deploy Docker Compose
         run: |
           MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} \

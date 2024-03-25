@@ -8,9 +8,10 @@ on:
 jobs:
   build:
     runs-on: self-hosted
+    environment:
+      MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}
+      MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}
     steps:
       - name: deploy application
         run: |
-          MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} \
-          MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} \
           docker-compose -f /home/morgott/product/Heinrich-Von-Zimmel/docker-compose.yml up -d

@@ -8,9 +8,9 @@ on:
 jobs:
   build:
     runs-on: self-hosted
-    environment:
-      MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}
-      MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}
+    env:
+      MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+      MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
     steps:
       - name: deploy application
         run: |

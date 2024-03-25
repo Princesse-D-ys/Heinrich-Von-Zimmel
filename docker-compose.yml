@@ -19,6 +19,8 @@ services:
   mysql:
     image: mysql:5.7
     container_name: mysql-db
+    volumes:
+        - db_data:/var/lib/mysql
     ports:
       - "3306:3306"
     restart: always
@@ -26,5 +28,6 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: wordpress
       MYSQL_USER: admin
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD} 
-
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+  volumes:
+    db_data:

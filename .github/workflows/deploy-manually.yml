@@ -13,6 +13,6 @@ jobs:
         run: |
           MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} \
           MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} \
-          docker stop heinrich-von-zimmel-db-1 \
-          docker rm heinrich-von-zimmel-db-1 \
+          #docker stop heinrich-von-zimmel-db-1 \
+          #docker rm heinrich-von-zimmel-db-1 \
           docker compose -f /home/morgott/product/Heinrich-Von-Zimmel/docker-compose.yml up -d

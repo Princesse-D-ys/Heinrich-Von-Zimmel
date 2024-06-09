@@ -29,9 +29,9 @@ RUN adduser -D Keris -s /usr/bin/bash
 
 USER Keris
 
-RUN wget https://raw.githubusercontent.com/yukinoli/MesDocker/main/.tmux.conf -O /home/Keris/.tmux.conf
+RUN wget https://github.com/Princesse-D-ys/Heinrich-Von-Zimmel/blob/main/Kerselec/Dockerfile/.tmux.conf -O /home/Keris/.tmux.conf
 
-RUN wget https://raw.githubusercontent.com/Keris/MesDocker/main/.tmux.conf -O /home/Keris/.tmux.conf && \
+RUN wget https://github.com/Princesse-D-ys/Heinrich-Von-Zimmel/blob/main/Kerselec/Dockerfile/.tmux.conf -O /home/Keris/.tmux.conf && \
     git clone https://github.com/tmux-plugins/tpm /home/Keris/.tmux/plugins/tpm && \
     mkdir /home/Keris/mnt
 

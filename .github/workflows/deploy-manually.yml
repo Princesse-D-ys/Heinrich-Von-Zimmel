@@ -1,17 +1,16 @@
----
-name: Manual deployment wordpress
-
-# Configure Manual Trigger
-on:
-  workflow_dispatch:
-
-jobs:
-  build:
-    runs-on: self-hosted
-    env:
-      MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-      MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
-    steps:
-      - name: deploy application
-        run: |
-          docker-compose -f /home/morgott/product/Heinrich-Von-Zimmel/docker-compose.yml up -d
+#---
+#name: Manual deployment wordpress
+#
+## Configure Manual Trigger
+#on:
+#  workflow_dispatch:
+#
+#jobs:
+#  build:
+#    runs-on: self-hosted
+#    steps:
+#      - name: deploy application
+#        run: |
+#          MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} \
+#          MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} \
+#          docker-compose -f /home/morgott/product/Heinrich-Von-Zimmel/docker-compose.yml up -d

@@ -1,19 +1,19 @@
----
-name: Deploy on Pull Request
-
-on:
-  pull_request:
-    types:
-      - closed
-
-jobs:
-  if_merged:
-    if: github.event.pull_request.merged == true
-    runs-on: self-hosted
-    steps:
-      - name: Deploy Docker Compose
-        run: |
-          MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} \
-          MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} \
-          docker-compose -f /home/morgott/product/Heinrich-Von-Zimmel/docker-compose.yml up -d
-
+#---
+#name: Deploy on Pull Request
+#
+#on:
+#  pull_request:
+#    types:
+#      - closed
+#
+#jobs:
+#  if_merged:
+#    if: github.event.pull_request.merged == true
+#    runs-on: self-hosted
+#    steps:
+#      - name: Deploy Docker Compose
+#        run: |
+#          MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} \
+#          MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} \
+#          docker-compose -f /home/morgott/product/Heinrich-Von-Zimmel/docker-compose.yml up -d
+#

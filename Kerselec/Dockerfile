@@ -6,6 +6,7 @@ RUN apk update && \
     neovim \
     git \
     python3 \
+    bash \
     python3-dev \
     py3-pip 
 

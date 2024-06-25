@@ -18,9 +18,9 @@ RUN apk update && \
     build-base \
     bash
 
-RUN adduser -D yukinoli -s /usr/bin/bash && \
-    addgroup yukinoli wheel && \
-    usermod --password $(echo 1234 | openssl passwd -1 -stdin) yukinoli && \
+RUN adduser -D Keris -s /usr/bin/bash && \
+    addgroup Keris wheel && \
+    usermod --password $(echo 1234 | openssl passwd -1 -stdin) Keris && \
     echo '%wheel ALL=(ALL) ALL' > /etc/sudoers.d/wheel
 
 USER Keris

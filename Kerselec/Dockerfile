@@ -1,21 +1,11 @@
-FROM alpine:3.19.0 AS builder
+FROM alpine:3.19.0 
 
-#premier container
-RUN apk update && \
-    apk add --no-cache \
-    neovim \
-    git \
-    python3 \
-    bash \
-    python3-dev \
-    py3-pip 
-
-#second container
-FROM alpine:3.19.0
+RUN sed -i 's/#\(.*\/community\)/\1/' /etc/apk/repositories
 
 RUN apk update && \
     apk add --no-cache \
-    bash \
+    sudo \
+    shadow \
     openssl \
     ncurses \
     wget \
@@ -25,9 +15,13 @@ RUN apk update && \
     tmux \
     zsh \
     git \
-    build-base
+    build-base \
+    bash
 
-RUN adduser -D Keris -s /usr/bin/bash 
+RUN adduser -D yukinoli -s /usr/bin/bash && \
+    addgroup yukinoli wheel && \
+    usermod --password $(echo 1234 | openssl passwd -1 -stdin) yukinoli && \
+    echo '%wheel ALL=(ALL) ALL' > /etc/sudoers.d/wheel
 
 USER Keris
 

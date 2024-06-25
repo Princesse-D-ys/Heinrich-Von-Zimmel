@@ -12,7 +12,6 @@ RUN apk update && \
     curl \
     python3 \
     neovim \
-    tmux \
     zsh \
     git \
     build-base \
@@ -25,11 +24,7 @@ RUN adduser -D Keris -s /usr/bin/bash && \
 
 USER Keris
 
-RUN wget https://github.com/Princesse-D-ys/Heinrich-Von-Zimmel/blob/main/Kerselec/.tmux.conf -O /home/Keris/.tmux.conf
-
-RUN wget https://github.com/Princesse-D-ys/Heinrich-Von-Zimmel/blob/main/Kerselec/.tmux.conf -O /home/Keris/.tmux.conf && \
-    git clone https://github.com/tmux-plugins/tpm /home/Keris/.tmux/plugins/tpm && \
-    mkdir /home/Keris/mnt
+RUN mkdir /home/Keris/mnt
 
 RUN cd $HOME &&\
     git clone https://github.com/NvChad/starter ~/.config/nvim &&\

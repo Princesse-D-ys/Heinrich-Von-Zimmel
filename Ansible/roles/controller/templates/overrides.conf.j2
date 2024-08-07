@@ -1,0 +1,6 @@
+[Service]
+Environment="JAVA_OPTS=-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false"
+Environment="JENKINS_HOME=/srv/jenkins"
+Environment="JENKINS_ARGS=--sessionTimeout=1440"
+WorkingDirectory=/srv/jenkins
+TimeoutSec=600

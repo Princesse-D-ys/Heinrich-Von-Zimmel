@@ -1,0 +1,385 @@
+---
+credentials:
+  system:
+    domainCredentials:
+    - credentials:
+      - usernamePassword:
+          id: "49456975-9778-4092-be61-3819031e1ed6"
+          password: 
+          scope: GLOBAL
+          username: "jenkins-robot"
+          usernameSecret: true
+      - basicSSHUserPrivateKey:
+          id: "ssh-jenkins"
+          privateKeySource:
+            directEntry:
+              privateKey:
+          scope: GLOBAL
+          username: "jenkins"
+          usernameSecret: true
+      - file:
+          description: "Puppet Env for Dev"
+          fileName: ".puppet-env-dev"
+          id: "puppet-env-dev"
+          scope: GLOBAL
+          secretBytes: "${readFileBase64:/srv/jenkins/.puppet-env-cred.txt}"
+      - file:
+          description: "Puppet Env file for Staging"
+          fileName: ".puppet-env-staging"
+          id: "puppet-env-staging"
+          scope: GLOBAL
+          secretBytes: "${readFileBase64:/srv/jenkins/.puppet-env-cred.txt}"
+      - file:
+          description: "Puppet Env for prod"
+          fileName: ".puppet-env-prod"
+          id: "puppet-env-prod"
+          scope: GLOBAL
+          secretBytes: "${readFileBase64:/srv/jenkins/.puppet-env-cred.txt}"
+      - string:
+          description: "SonarQube CIRB LTS 5.3 "
+          id: "sonarque-lts"
+          scope: GLOBAL
+          secret: "
+      - openShiftToken:
+          id: "9b74671c-f696-4b88-a676-cb6224406c24"
+      - string:
+          description: "SonarQube token"
+          id: "SonarQubeCIRBEE9"
+          scope: GLOBAL
+          secret: "
+      - usernamePassword:
+          description: "Jenkins user to connect to Artifactory Saas" 
+          id: "jenkins-artifactory-saas"
+          password: "
+          scope: GLOBAL
+          username: "jenkins"
+          usernameSecret: true
+      - string:
+          description: "Access token to connect to GitHub Cloud Enterprise"
+          id: "github-cloud-enterprise-at"
+          scope: GLOBAL
+          secret: "
+      - string:
+          description: "Github EMU - paradigm_admin - PAT - admin"
+          id: "github-emu-paradigm_admin-admin"
+          scope: GLOBAL
+          secret: "
+      - string:
+          description: "jira-secret"
+          id: "jira-secret"
+          scope: GLOBAL
+          secret: "
+      - usernamePassword:
+          description: "To let jenkins to connect to bitbucket to be able to send\
+            \ notifications (ex build notification) to jenkins"
+          id: "jenkins-bitbucket"
+          password: "
+          scope: GLOBAL
+          username: "jenkins-bitbucket"
+jenkins:
+  agentProtocols:
+  - JNLP4-connect
+  - Ping
+  authorizationStrategy:
+    projectMatrix:
+      permissions:
+      - USER:Overall/Administer:jenkinsslave
+      - GROUP:Overall/Read:
+      - GROUP:Overall/Administer:
+  crumbIssuer:
+    standard:
+      excludeClientIPFromCrumb: false
+  disableRememberMe: false
+  disabledAdministrativeMonitors:
+  - org.jenkinsci.plugins.matrixauth.AmbiguityMonitor
+  - hudson.model.UpdateCenter$CoreUpdateMonitor
+  - hudson.diagnosis.TooManyJobsButNoView
+  markupFormatter: plainText
+  mode: NORMAL
+  myViewsTabBar: standard
+  numExecutors: 0
+  primaryView:
+    all:
+      name: all
+  projectNamingStrategy: standard
+  quietPeriod: 5
+  remotingSecurity:
+    enabled: false
+  scmCheckoutRetryCount: 0
+  securityRealm:
+    activeDirectory:
+      bindPassword: "
+      customDomain: true
+      domains:
+      - bindName: "CN=jenkins,OU=ServiceAccounts,OU=CICD,OU=Applications,OU=CIRB,OU=Organizations,DC=,DC=,DC="
+        bindPassword: 
+        name: "infra.cirb.lan"
+        servers: "infra.cirb.lan:389"
+        tlsConfiguration: TRUST_ALL_CERTIFICATES
+      groupLookupStrategy: AUTO
+      removeIrrelevantGroups: false
+      startTls: true
+  slaveAgentPort: 50000
+  updateCenter:
+    sites:
+    - id: default
+      url: 
+  views:
+  - all:
+      name: all
+  viewsTabBar: standard
+security:
+  apiToken:
+    creationOfLegacyTokenEnabled: false
+    tokenGenerationOnCreationEnabled: false
+    usageStatisticsEnabled: true
+  sSHD:
+    port: -1
+  scriptApproval:
+    approvedSignatures:
+    - method hudson.plugins.git.GitSCM getUserRemoteConfigs
+    - staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods combinations java.util.Collection
+    - staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods intersect java.util.List
+      java.lang.Iterable
+    - staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods toUnique java.lang.Object[]
+unclassified:
+  ansibleTowerGlobalConfig:
+    towerInstallation:
+    - enableDebugging: false
+      towerCredentialsId: awx-token
+      towerDisplayName: awx
+      towerTrustCert: true
+      towerURL: "{{ controller_awx_url }}"
+  artifactoryBuilder:
+    jfrogInstances:
+    - artifactoryUrl: "{{ controller_jfrog_url }}/artifactory"
+      bypassProxy: false
+      connectionRetry: 3
+      deployerCredentialsConfig:
+        credentialsId: "{{ credentials_jfrog_id }}"
+        overridingCredentials: false
+        password: "{{ controller_artifactory_password }}"
+        username: "jenkins"
+      deploymentThreads: 3
+      distributionUrl: "{{ controller_jfrog_url }}/distribution"
+      instanceId: "Artifactory SaaS"
+      platformUrl: "{{ controller_jfrog_url }}"
+      timeout: 300
+    jfrogPipelinesServer:
+      bypassProxy: false
+      connectionRetries: 3
+      credentialsConfig:
+        ignoreCredentialPluginDisabled: true
+        overridingCredentials: false
+        password: "{{ controller_artifactory_password }}"
+        username: "jenkins"
+      timeout: 300
+    useCredentialsPlugin: true
+  ansiColorBuildWrapper:
+    colorMaps:
+    - black: "#000000"
+      blackB: "#4C4C4C"
+      blue: "#1E90FF"
+      blueB: "#4682B4"
+      cyan: "#00CDCD"
+      cyanB: "#00FFFF"
+      green: "#00CD00"
+      greenB: "#00FF00"
+      magenta: "#CD00CD"
+      magentaB: "#FF00FF"
+      name: xterm
+      red: "#CD0000"
+      redB: "#FF0000"
+      white: "#E5E5E5"
+      whiteB: "#FFFFFF"
+      yellow: "#CDCD00"
+      yellowB: "#FFFF00"
+    - black: "#000000"
+      blackB: "#555555"
+      blue: "#0000AA"
+      blueB: "#5555FF"
+      cyan: "#00AAAA"
+      cyanB: "#55FFFF"
+      defaultBackground: 0
+      defaultForeground: 7
+      green: "#00AA00"
+      greenB: "#55FF55"
+      magenta: "#AA00AA"
+      magentaB: "#FF55FF"
+      name: vga
+      red: "#AA0000"
+      redB: "#FF5555"
+      white: "#AAAAAA"
+      whiteB: "#FFFFFF"
+      yellow: "#AA5500"
+      yellowB: "#FFFF55"
+    - black: black
+      blackB: black
+      blue: blue
+      blueB: blue
+      cyan: cyan
+      cyanB: cyan
+      green: green
+      greenB: green
+      magenta: magenta
+      magentaB: magenta
+      name: css
+      red: red
+      redB: red
+      white: white
+      whiteB: white
+      yellow: yellow
+      yellowB: yellow
+    - black: "#2E3436"
+      blackB: "#2E3436"
+      blue: "#3465A4"
+      blueB: "#3465A4"
+      cyan: "#06989A"
+      cyanB: "#06989A"
+      defaultBackground: 0
+      defaultForeground: 7
+      green: "#4E9A06"
+      greenB: "#4E9A06"
+      magenta: "#75507B"
+      magentaB: "#75507B"
+      name: gnome-terminal
+      red: "#CC0000"
+      redB: "#CC0000"
+      white: "#D3D7CF"
+      whiteB: "#D3D7CF"
+      yellow: "#C4A000"
+      yellowB: "#C4A000"
+    globalColorMapName: xterm
+  bitbucketEndpointConfiguration:
+    endpoints:
+    - bitbucketServerEndpoint:
+        bitbucketJenkinsRootUrl: "{{ controller_jenkins_url }}"
+        credentialsId: "{{ controller_credentials_global_user_id }}"
+        displayName: CIRB
+        manageHooks: true
+        serverUrl: "{{ controller_bitbucket_url }}"
+        webhookImplementation: NATIVE
+  buildStepOperation:
+    enabled: false
+  claimConfig:
+    propagateToFollowingBuildsByDefault: false
+    sendEmails: false
+    sortUsersByFullName: false
+    stickyByDefault: true
+  defaultFolderConfiguration:
+    healthMetrics:
+    - worstChildHealthMetric:
+        recursive: true
+  dependencyGraphProperty:
+    editFunctionInJSViewEnabled: false
+    graphvizEnabled: true
+  diskUsageProjectActionFactory:
+    historyLength: 183
+    showGraph: false
+    timeoutWorkspace: 5
+  scmGit:
+    createAccountBasedOnEmail: false
+    globalConfigEmail: cicd_cicd@cirb.irisnet.be
+    globalConfigName: Jenkins default User
+    showEntireCommitSummaryInChanges: false
+    useExistingAccountWithSameEmail: false
+  globalConfigurationImpl:
+    agvtoolPath: "/usr/bin/agvtool"
+    xcodebuildPath: "/usr/bin/xcodebuild"
+    xcrunPath: "/usr/bin/xcrun"
+  globalLibraries:
+    libraries:
+    - defaultVersion: master
+      implicit: true
+      name: cirb
+      retriever:
+        modernSCM:
+          scm:
+            git:
+              credentialsId: "{{ credentials_ssh_id }}"
+              id: 9e69b493-00e2-43a4-a42a-5aee6a7b012c
+              remote: "{{ global_libraries_git_remote }}"
+              traits:
+              - gitBranchDiscovery
+  hashicorpVault:
+    configuration:
+      engineVersion: 2
+      timeout: 60
+      vaultUrl: "{{ controller_hashi_vault_url }}"
+  location:
+    adminAddress: cicd_cicd@cirb.irisnet.be
+    url:  "{{ controller_jenkins_url }}"
+  mailer:
+    charset: UTF-8
+    useSsl: false
+  mavenModuleSet:
+    globalMavenOpts: "-Xmx1024m-XX:MaxPermSize=512m"
+    localRepository: default
+  openShift:
+    clusterConfigs:
+    - credentialsId: developer
+      name: dev.paas.cirb.lan
+      serverUrl: 
+      skipTlsVerify: true
+    - name: sbx
+      serverUrl: 
+      skipTlsVerify: true
+    - credentialsId: cirb-sa
+      defaultProject: clair-scanner
+      name: its
+      serverUrl: 
+      skipTlsVerify: true
+    - credentialsId: cirb-sa-prd-clair-scanner
+      defaultProject: clair-scanner
+      name: prd
+      serverUrl: 
+      skipTlsVerify: true
+    - name: dev
+      serverUrl: 
+      skipTlsVerify: true
+  pollSCM:
+    pollingThreadCount: 10
+  sonarGlobalConfiguration:
+    buildWrapperEnabled: true
+    installations:
+    - credentialsId: sonarque-lts
+      name: SonarQube CIRB LTS
+      serverUrl: 
+      triggers:
+        skipScmCause: false
+        skipUpstreamCause: false
+    - credentialsId: SonarQubeCIRBEE9
+      name: SonarQube CIRB EE 9
+      serverUrl: 
+      triggers:
+        skipScmCause: false
+        skipUpstreamCause: false
+  timestamper:
+    allPipelines: false
+    elapsedTimeFormat: "'<b>'HH:mm:ss.S'</b> '"
+    systemTimeFormat: "'<b>'HH:mm:ss'</b> '"
+tool:
+  git:
+    installations:
+    - home: git
+      name: Default
+  jdk:
+    installations:
+    - home: "/usr/java/default"
+      name: java-sun-default (1.6 used by Alfresco related projects)
+    - home: "/usr/lib/jvm/java-17-openjdk"
+      name: java-openjdk-17
+    - home: "/usr/lib/jvm/java-11-openjdk"
+      name: java-openjdk-11
+    - home: "/usr/lib/jvm/java-1.6.0-openjdk.x86_64"
+      name: java-openjdk-1.6
+    - home: "/usr/lib/jvm/java-1.8.0-openjdk"
+      name: java-openjdk-1.8
+    - home: "/usr/lib/jvm/java-21-openjdk"
+      name: java-openjdk-21
+  pipelineMaven:
+    triggerDownstreamUponResultAborted: false
+    triggerDownstreamUponResultFailure: false
+    triggerDownstreamUponResultNotBuilt: false
+    triggerDownstreamUponResultSuccess: true
+    triggerDownstreamUponResultUnstable: false

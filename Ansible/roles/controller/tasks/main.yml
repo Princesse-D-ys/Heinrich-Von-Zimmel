@@ -1,0 +1,145 @@
+---
+- name: Install required packages on host
+  ansible.builtin.package:
+    name: "{{ controller_common_packages + controller_extra_packages }}"
+    state: present
+
+- name: Create jenkins group
+  ansible.builtin.group:
+    name: jenkins
+    gid: 302
+    state: present
+
+- name: Create jenkins user
+  ansible.builtin.user:
+    name: jenkins
+    state: present
+    uid: 302
+    home: "{{ controller_jenkins_user_home }}"
+    password: '*'
+    group: jenkins
+
+- name: Create jenkinsslave user
+  ansible.builtin.user:
+    name: jenkinsslave
+    state: present
+    uid: 1999
+    home: "{{ controller_jenkins_user_home }}"
+    password:
+    group: jenkins
+  no_log: true
+
+- name: Create {{ controller_dir }} directory
+  ansible.builtin.file:
+    path: "{{ controller_dir }}"
+    state: directory
+    owner: jenkins
+    group: jenkins
+    mode: '0755'
+
+- name: Copy Puppet credentials
+  ansible.builtin.template:
+    src: puppet-env-cred.txt.j2
+    dest: /srv/jenkins/.puppet-env-cred.txt
+    group: jenkins
+    owner: jenkins
+
+- name: Install Jenkins
+  ansible.builtin.yum:
+    name: "https://get.jenkins.io/redhat-stable/jenkins-{{ controller_jenkins_version }}.noarch.rpm"
+    state: present
+  notify: Restart jenkins
+
+- name: Configure Java alternatives if needed
+  community.general.alternatives:
+    name: java
+    link: /usr/bin/java
+    path: "/usr/lib/jvm/{{ controller_java_default_version }}/bin/java"
+    state: auto
+
+- name: Create folder init.groovy.d
+  ansible.builtin.file:
+    group: jenkins
+    mode: '0755'
+    owner: jenkins
+    path: "{{ controller_dir }}/init.groovy.d"
+    recurse: true
+    state: directory
+
+- name: Configure CaC jenkins.yaml
+  ansible.builtin.template:
+    dest: "{{ controller_dir }}/jenkins.yaml"
+    group: jenkins
+    mode: '0644'
+    owner: jenkins
+    src: jenkins.yaml.j2
+  notify: Restart jenkins
+
+- name: Ensure the jenkins-slave.service.d directory exist
+  ansible.builtin.file:
+    path: /etc/systemd/system/jenkins.service.d
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+
+- name: Configuring service jenkins
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    # mode: '0644'
+  with_items:
+    - {src: 'jenkins.j2', dest: '/etc/sysconfig/jenkins'}
+    - {src: 'overrides.conf.j2', dest: '/etc/systemd/system/jenkins.service.d/overrides.conf'}
+  notify:
+    - Daemon reload
+
+- name: Start service jenkins
+  ansible.builtin.systemd:
+    name: jenkins
+    state: started
+    enabled: true
+
+- name: Create .keep file inside the init.groovy.d folder
+  ansible.builtin.file:
+    group: jenkins
+    mode: '0644'
+    owner: jenkins
+    path: "{{ controller_dir }}/init.groovy.d/.keep"
+    state: touch
+
+- name: Copy plugins.yaml
+  ansible.builtin.copy:
+    src: plugins.yaml
+    dest: "{{ controller_dir }}/plugins.yaml"
+    group: jenkins
+    owner: jenkins
+    mode: '0644'
+
+- name: Copy update-plugins.sh
+  ansible.builtin.copy:
+    src: update-plugins.sh
+    dest: /usr/local/bin/update-plugins.sh
+    owner: jenkins
+    group: jenkins
+    mode: '0755'
+
+- name: Reset the plugins
+  when: controller_reset_plugins | bool
+  notify: Restart jenkins
+  block:
+    - name: Remove plugins directory
+      ansible.builtin.file:
+        path: /srv/jenkins/plugins
+        state: absent
+    - name: Run the Update script
+      ansible.builtin.shell: sh /usr/local/bin/update-plugins.sh
+
+- name: Creation of log file
+  ansible.builtin.file:
+    group: jenkins
+    state: directory
+    mode: '0750'
+    owner: jenkins
+    path: /var/log/jenkins
+    recurse: true

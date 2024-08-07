@@ -1,0 +1,32 @@
+---
+controller_awx_url:
+controller_jenkins_url:
+controller_bitbucket_url:
+controller_hashi_vault_url:
+controller_jfrog_url:
+
+controller_credentials_global_user_id: 49456975-9778-4092-be61-3819031e1ed6
+
+controller_dir: /srv/jenkins
+controller_jenkins_user_home: /var/lib/jenkins
+controller_artifactory_ro_username: stacks_reader
+controller_artifactory_ro_password:
+controller_pluginmanager_version: '2.12.11'
+controller_jenkins_version: '2.452.1-1.1'
+controller_java_default_version: java-21-openjdk
+controller_reset_plugins: false
+controller_artifactory_password:
+controller_extra_packages: []
+
+controller_common_packages:
+  - bind-utils
+  - fontconfig
+  - libXfont2
+  - libfontenc
+  - ttmkfdir
+  - xorg-x11-font-utils
+  - xorg-x11-fonts-Type1
+  - unzip
+  - daemonize
+  - git
+  - java-21-openjdk-devel

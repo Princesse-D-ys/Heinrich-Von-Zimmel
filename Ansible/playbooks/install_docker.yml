@@ -5,4 +5,4 @@
   tasks:
     - name: Install Docker & Docker Compose Plugin
       include_role:
-        name: ../roles/install_docker
+        name: ../roles/ansible_docker

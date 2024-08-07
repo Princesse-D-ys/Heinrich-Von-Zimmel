@@ -1,0 +1,22 @@
+---
+- name: Check current docker-compose version
+  ansible.builtin.command: "docker-compose --version || docker compose version"
+  register: "docker_compose_current_version"
+  changed_when: false
+  failed_when: false
+
+- name: "Create /srv/compose directory"
+  ansible.builtin.file:
+    path: /srv/compose
+    mode: '0755'
+    owner: root
+    group: root
+    state: directory
+
+- name: Install Docker-compose
+  ansible.builtin.package:
+    name: "docker-compose-plugin-{{ docker_compose_version }}"
+    state: present
+    enablerepo: "docker-ce-stable_el_8 "
+  when: >
+    docker_compose_current_version.rc != 0

@@ -1,0 +1,13 @@
+---
+- name: Ensure old versions of Docker are not installed
+  ansible.builtin.package:
+    name:
+      - docker
+      - docker-common
+      - docker-engine
+    state: absent
+
+- name: Ensure Yum lock is installed
+  ansible.builtin.yum:
+    name: yum-plugin-versionlock
+    state: present

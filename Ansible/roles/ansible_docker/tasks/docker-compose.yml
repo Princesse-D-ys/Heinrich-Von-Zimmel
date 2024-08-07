@@ -17,6 +17,5 @@
   ansible.builtin.package:
     name: "docker-compose-plugin-{{ docker_compose_version }}"
     state: present
-    enablerepo: "docker-ce-stable_el_8 "
   when: >
     docker_compose_current_version.rc != 0

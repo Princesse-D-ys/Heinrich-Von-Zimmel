@@ -18,7 +18,6 @@
   ansible.builtin.package:
     name: "{{ docker_packages }}"
     state: present
-    enablerepo: "docker-ce-stable_el_8"
   notify: Restart docker
   ignore_errors: "{{ ansible_check_mode }}"
 
@@ -32,18 +31,3 @@
 - name: Install docker
   ansible.builtin.include_tasks: "docker-compose.yml"
   when: docker_install_compose | bool
-
-  # - name: Log into private registry
-  #  community.docker.docker_login:
-  #    registry_url: ""
-  #    username: stacks_reader
-  #    password:
-
-- name: Yum version Lock
-  community.general.yum_versionlock:
-    state: present
-    name:
-      - docker-ce
-      - docker-ce-cli
-      - docker-compose-plugin
-      - containerd.io

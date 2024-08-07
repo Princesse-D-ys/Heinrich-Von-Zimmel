@@ -6,8 +6,3 @@
       - docker-common
       - docker-engine
     state: absent
-
-- name: Ensure Yum lock is installed
-  ansible.builtin.yum:
-    name: yum-plugin-versionlock
-    state: present

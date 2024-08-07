@@ -33,11 +33,11 @@
   ansible.builtin.include_tasks: "docker-compose.yml"
   when: docker_install_compose | bool
 
-- name: Log into private registry
-  community.docker.docker_login:
-    registry_url: "cirbcibg.jfrog.io"
-    username: stacks_reader
-    password: "{{ lookup('community.hashi_vault.hashi_vault', 'secret=kv_cicd/data/artifactory/cloud/access_token:stacks_reader') }}"
+  # - name: Log into private registry
+  #  community.docker.docker_login:
+  #    registry_url: ""
+  #    username: stacks_reader
+  #    password:
 
 - name: Yum version Lock
   community.general.yum_versionlock:

@@ -1,6 +1,4 @@
 ---
-version: '2'
-
 services:
   wordpress:
     image: wordpress:latest
@@ -34,4 +32,4 @@ services:
 volumes:
   db_data:
 networks:
-  mot:
+  wordmot:

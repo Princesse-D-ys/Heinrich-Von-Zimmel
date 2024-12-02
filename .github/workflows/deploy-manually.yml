@@ -1,16 +1,27 @@
-name: Manual deployment wordpress
+name: Manual Deployment Wordpress
 
 # Configure Manual Trigger
 on:
   workflow_dispatch:
+    inputs:
+      trigger_reason:
+        description: "Liftoff"
+        required: false
+
+  push:
+    paths:
+      - "docker-compose.yml"
 
 jobs:
   build:
     runs-on: self-hosted
     steps:
-      - name: deploy application
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Dp a zarma
         run: |
           MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} \
           MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} \
-          docker-compose -f /home/morgott/product/Heinrich-Von-Zimmel/docker-compose.yml up -d
-#          docker-compose -f /home/morgott/product/Heinrich-Von-Zimmel/docker-compose.yml up -d
+          docker-compose -f ./docker-compose.yml up -d
+

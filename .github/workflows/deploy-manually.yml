@@ -23,4 +23,4 @@ jobs:
         run: |
           MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} \
           MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} \
-          docker-compose -f ../../docker-compose.yml up -d
+          docker-compose -f ./docker-compose.yml up -d
